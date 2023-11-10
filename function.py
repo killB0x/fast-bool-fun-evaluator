@@ -1,4 +1,5 @@
 from enum import Enum
+import itertools
 
 class Gate(Enum):
     AND = "and"
@@ -55,13 +56,23 @@ def exampleFunction():
 
 rootNode = exampleFunction()
 
-# def get 
+def generate_binary_combinations(n):
+    return itertools.product([0, 1], repeat=n)
+
+
 
 def evaluateFunctionNaively(rootNode):
     vars = rootNode.getVars()
-    data = []
-    print(rootNode.evaluate())
-    pass
+    data = list(generate_binary_combinations(len(vars)))
+    functionEvaluation = {}
+    
+    for dataPoint in data:
+        for i,var in enumerate(vars):
+            print(i, var)
+            var.value = dataPoint[i]
+        functionEvaluation[dataPoint] = var.value
+        
+    print(len(functionEvaluation))
 
 def evaluateFunctionOptimally():
     pass
