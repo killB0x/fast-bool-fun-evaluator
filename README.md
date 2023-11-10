@@ -1,0 +1,1 @@
+Implementation of a quick algorithm for boolean function evaluation.
