@@ -9,7 +9,11 @@ class BoolFunction:
         self.value = value
         self.children = children
         self.gate = gate
-    
+        self.gateOperator = None
+        if (self.gate == Gate.AND):
+            self.gateOperator = all
+        elif (self.gate == Gate.OR):
+            self.gateOperator = any
 
     def getVars(self):
         vars = []
@@ -19,16 +23,26 @@ class BoolFunction:
             else:
                 vars.append(child)
         return vars
-
+    
+    def evaluate(self):
+        childrenValues = []
+        for child in self.children:
+            if (self.gate != None):
+                childrenValues.append(child.evaluate())
+            else:
+                return self.value
+        if (self.gate == None):
+            return self.value
+        return self.gateOperator(childrenValues)
 
 def exampleFunction():
     v1 = BoolFunction(1)
     v2 = BoolFunction(1)
     v3 = BoolFunction(0)
     v4 = BoolFunction(1)
-    v5 = BoolFunction(0)
-    v6 = BoolFunction(0)
-    v7 = BoolFunction(1)
+    v5 = BoolFunction(1)
+    v6 = BoolFunction(1)
+    v7 = BoolFunction(0)
     v8 = BoolFunction(1)
     l1_1 = BoolFunction(None, [v1,v2], Gate.AND)
     l1_2 = BoolFunction(None, [v3,v4], Gate.OR)
@@ -41,10 +55,12 @@ def exampleFunction():
 
 rootNode = exampleFunction()
 
+# def get 
+
 def evaluateFunctionNaively(rootNode):
-    # vars = rootNode.getVars()
-    # data = []
-    
+    vars = rootNode.getVars()
+    data = []
+    print(rootNode.evaluate())
     pass
 
 def evaluateFunctionOptimally():
