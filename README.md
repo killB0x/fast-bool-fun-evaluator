@@ -7,7 +7,9 @@ The main idea of the algorithm is to leverage the fact that we are enumerating a
 
 We start iterating through the algorithm. For the first code which is always when all variables are 0, we do nothing. In the second iteration, when a single bit is changed, we flip it in the equation tree and we start a procedure called upward propagation. The upward propagation essentially uses the chain of parents of each node to update the entire equation, rather than updating the entire equation.
 
-During upward propagation, if the current bit is $1$, we add 1 to a counter in the parent called $trueChildren$, which represents the number of children nodes with value $1$. Similarly, we subtract $1$ if the node is 0. From this we can compute the value of the gate: if $trueChildren$ equals the number of children for an $AND$ gate it is true and if it is greater than 0 for an $OR$ gate, then it is true. We check if the value of the parent changes as a result of the changes in the counter. If it does, we continue the same process on the parent, otherwise we stop. The value of the root node of the equation, will be the result.
+During upward propagation, if the current bit is $1$, we add 1 to a counter in the parent called $trueChildren$, which represents the number of children nodes with value $1$. Similarly, we subtract $1$ if the node is 0. From this we can compute the value of the gate: if $trueChildren$ equals the number of children for an $AND$ gate it is true and if it is greater than 0 for an $OR$ gate, then it is true. We check if the value of the parent changes as a result of the changes in the counter. If it does, we continue the same process on the parent, otherwise we stop. I will refer to this kind of early stop as **propagation halting**. The value of the root node of the equation, will be the result.
+
+The algorithm can easily work with $OR$, $AND$, and $VOT$ gates. Implementing unary operators like $NOT$ should also be rather trivial.
 
 # Complexity
 
@@ -18,3 +20,28 @@ The intuition behind this metric is that the more gates there are in the tree re
 For example, consider the case of an equation with a single gate and a very large number of children. In this case the dispersion would be approaching $0$, when the number of children becomes very big. In the optimized version and the original version of the function enumeration one gate will have to be evaluated.
 
 If we consider the case where we only use two values for the function and have a gate per depth level, the complexity of the function would be $O((m/2) \cdot 2^n)$. If we generalize the formula, for any Boolean function, then we have $O(avg_d \cdot 2^n)$, where $avg_d$ is the sum of all the depth of all variables divided by the number of all variables.
+
+Additionally, it would be interesting to see how the algorithm behaves in functions based on the ratio between $OR$ and $AND$ gates. Given that the algorithm uses propagation halting as a heuristic, it is very likely that it will be most useful in scenarios where $OR$ gates dominate, since they would be less affected by individual variable changes.
+
+Overall, the complexity analysis would be non-trivial, but it would be useful to at least determine the average, best-case and worst-case complexity of the algorithm in different scenarios.
+
+# Use cases
+
+## Digital circuit design
+The algorithm could be used to quickly enumerate the values of digital circuits. This would be particularly useful in the testing stage, to find errors, mismatched values or even provide insight into how to optimize it further.
+
+## Fault tree analysis
+In this case, the algorithm can be used to compute all the input/output pairs of a fault tree to identify which events lead to the occurrence of the Top Event. It would be particularly useful when there are many fault trees to be evaluated.
+
+## Cryptographic function evaluation
+
+The algorithm could be useful in the design of cryptographic hash functions, to ensure that the functions/encryption methods are secure.
+# Other features
+
+## Parallelization
+
+The algorithm in itself is very easy to parallelize. To do that, one would have to precompute the gray codes and split the code list into $n$ parts. Each parallel process would have to fully evaluate the first configuration in the list, and then continue applying the improved algorithm. In this case it would be important to be careful not too use too many cores,  for smaller problems. If we were to use $2^n$ threads, there would be no difference between parallelizing the non-optimized algorithm and FBFE.
+
+## One-variable switch
+
+Given that only one variable's value is switched during the computation process, you only have to remember a list of indices instead of a list of tuples in order to enumerate the function. This can be efficient in terms of memory, but also saves time, since you do not have to update the value of each variable individually. Computing the Gray codes can be done using Boolean operations, so it is extremely fast.
