@@ -63,3 +63,4 @@ It appears that in most cases the algorithm is 10 times faster than the naive im
 ![Alt text](test_results/image-6.png)
 ![Alt text](test_results/image-7.png)
 ![Alt text](test_results/image-8.png)
+![Alt text](test_results/image-9.png)
