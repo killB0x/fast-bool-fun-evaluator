@@ -28,7 +28,6 @@ class BoolFunction:
         stringFunction = ""
         if self.gate != None:
             stringFunction = self.gate.value + "("
-            # print(len(self.children))
             for child in self.children:
                 stringFunction += str(child) + ","
             
@@ -52,13 +51,14 @@ class BoolFunction:
         return vars
     
     def evaluate(self):
-        for child in self.children:
-            if (self.gate != None):
-                self.value = self.gateOperator([self.value,child.evaluate()])
-            else:
-                return self.value
         if (self.gate == None):
             return self.value
+        self.value = None
+        for child in self.children:
+            if self.value == None:
+                self.value = child.evaluate()
+            else:
+                self.value = self.gateOperator([self.value,child.evaluate()])
         return self.value
     
     def propagateChange(self):

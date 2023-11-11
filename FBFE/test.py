@@ -17,7 +17,7 @@ def evaluateFunctionNaively(rootNode):
     start_time = time.time()
     for dataPoint in data:
         for i,var in enumerate(vars):
-            var.value = dataPoint[i]
+            var.value = int(dataPoint[i])
         functionEnumeration[dataPoint] = rootNode.evaluate()
     end_time = time.time() - start_time
     return functionEnumeration, end_time
@@ -56,16 +56,19 @@ def evaluateFunctionOptimally(rootNode):
     return functionEnumeration,end_time
 
 def testCompleteBinaryTreeDepth():
-    rootNode = generate_random_bool_function(3,1,4)
+    rootNode = generate_random_bool_function(3,2,3)
     print("Evaluated function " + str(rootNode))
     print("Generated function")
     print(str(len(rootNode.getVars())) + " variables")
-    _,time_naive = evaluateFunctionNaively(rootNode)
+    data_naive,time_naive = evaluateFunctionNaively(rootNode)
     print("Finished naive enumeration")
-    _,time_optimal = evaluateFunctionOptimally(rootNode)
+    data_optimal,time_optimal = evaluateFunctionOptimally(rootNode)
     print("Finished optimal evaluation")
     print("Time naive:", time_naive)
     print("Time optimal:", time_optimal)
+    for key,val in data_optimal.items():
+        # print(key, data_naive[key], data_optimal[key])
+        assert(data_naive[key] == data_optimal[key])
     
 testCompleteBinaryTreeDepth()
     
