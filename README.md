@@ -49,3 +49,15 @@ Given that only one variable's value is switched during the computation process,
 
 ## Easy to implement
 The algorithm is rather straightforward to implement. It uses minimal memory, and can be easily integrated in existing systems.
+
+# Initial test results
+
+![Alt text](test_results/image.png)
+![Alt text](test_results/image-1.png)
+![Alt text](test_results/image-2.png)
+![Alt text](test_results/image-3.png)
+![Alt text](test_results/image-4.png)
+![Alt text](test_results/image-5.png)
+![Alt text](test_results/image-6.png)
+![Alt text](test_results/image-7.png)
+![Alt text](test_results/image-8.png)
