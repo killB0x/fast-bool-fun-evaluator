@@ -7,6 +7,8 @@ def get_random_gate():
 
 def generate_random_bool_function(depth = 3, minK = 2, maxK=2):
     childrenCount = random.randint(minK, maxK)
+    while childrenCount == 1:
+        childrenCount = random.randint(minK, maxK)
     if depth == 0 or childrenCount == 0:
         return BoolFunction()
     
