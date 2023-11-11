@@ -52,6 +52,8 @@ The algorithm is rather straightforward to implement. It uses minimal memory, an
 
 # Initial test results
 
+It appears that in most cases the algorithm is 10 times faster than the naive implementation. For understnading why this is the case a more thorough analysis should be made, keeping in mind what was mentioned in the previous paragraphs.
+
 ![Alt text](test_results/image.png)
 ![Alt text](test_results/image-1.png)
 ![Alt text](test_results/image-2.png)
